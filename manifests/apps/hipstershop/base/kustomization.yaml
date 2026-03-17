@@ -4,6 +4,6 @@ kind: Kustomization
 helmCharts:
 - name: frontend
   releaseName: hipster-frontend
-  # La ruta debe ser relativa al archivo kustomization.yaml
-  path: ../../../../hipstershop-demo/helm/charts/frontend 
+  version: v1
+  path: ../../../../hipstershop-demo/helm/charts/frontend
   valuesFile: ../../../../resources/hipstershop/values.yaml
