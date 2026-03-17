@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/raullopezepam/mi-repo-gitops.git
-    path: manifests/apps/__overlays
+    path: manifests/apps/hipster-demo/base
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
