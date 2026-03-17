@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/raullopezepam/mi-repo-gitops.git
+    targetRevision: HEAD
+    path: projects # 🎯 ¡Aquí está el truco! Vigila la carpeta de proyectos
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd # 🏠 Las aplicaciones de Argo viven en el namespace argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

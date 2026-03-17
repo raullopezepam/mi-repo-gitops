@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hipster-frontend
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/raullopezepam/mi-repo-gitops.git
+    targetRevision: HEAD
+    path: manifests/hipstershop/frontend # 📂 La ruta donde están tus nuevos archivos
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default # 🏠 El barrio donde se instalará la tienda
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
