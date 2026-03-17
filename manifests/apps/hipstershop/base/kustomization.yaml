@@ -1,5 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-resources:
-  - helmrelease.yaml
+helmCharts:
+- name: frontend
+  path: ../../../../charts/frontend
+  releaseName: hipster-frontend
+  valuesFile: ../../../../resources/apps/hipstershop/values.yaml
