@@ -1,0 +1,358 @@
+# Default values for shop.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Values para shippingservice
+shippingservice:
+  replicaCount: 1
+  image:
+    repository: gcr.io/google-samples/microservices-demo/shippingservice
+    tag: 0.2.0
+    pullPolicy: IfNotPresent
+  containers:
+    name: "server"
+  imagePullSecrets: []
+  service:
+    type: ClusterIP
+    port: 50051
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+# Values para redis-cart
+redis-cart:
+  replicaCount: 1
+  image:
+    repository: redis
+    tag: alpine
+    pullPolicy: IfNotPresent
+  containers:
+    name: "redis"
+  imagePullSecrets: []
+  service:
+    type: ClusterIP
+    port: 6379
+    targetPort: 6379
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+  resources:
+    requests:
+      cpu: 70m
+      memory: 200Mi
+    limits:
+      cpu: 125m
+      memory: 256Mi
+
+# Values para recommendationservice
+recommendationservice:
+  replicaCount: 1
+  image:
+    repository: gcr.io/google-samples/microservices-demo/recommendationservice
+    tag: 0.2.0
+    pullPolicy: IfNotPresent
+  containers:
+    name: "server"
+  imagePullSecrets: []
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+  resources:
+    requests:
+      cpu: 100m
+      memory: 220Mi
+    limits:
+      cpu: 200m
+      memory: 450Mi
+
+# Values para productcatalogservice
+productcatalogservice:
+  replicaCount: 1
+  image:
+    repository: gcr.io/google-samples/microservices-demo/productcatalogservice
+    tag: 0.2.0
+    pullPolicy: IfNotPresent
+  containers:
+    name: "server"
+  imagePullSecrets: []
+  service:
+    type: ClusterIP
+    port: 3550
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+# Values para paymentservice
+paymentservice:
+  replicaCount: 1
+  image:
+    repository: gcr.io/google-samples/microservices-demo/paymentservice
+    tag: 0.2.0
+    pullPolicy: IfNotPresent
+  containers:
+    name: "server"
+  imagePullSecrets: []
+  service:
+    type: ClusterIP
+    port: 50051
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+# Values para loadgenerator
+loadgenerator:
+  replicaCount: 1
+  image:
+    repository: gcr.io/google-samples/microservices-demo/loadgenerator
+    tag: 0.2.0
+    pullPolicy: IfNotPresent
+  containers:
+    name: "server"
+  imagePullSecrets: []
+  service:
+    type: ClusterIP
+    port: 80
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+  resources:
+    requests:
+      cpu: 300m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# Values para frontend-gateway
+# frontend-gateway:
+#   replicaCount: 1
+#   image:
+#     repository: nginx
+#     pullPolicy: IfNotPresent
+#   imagePullSecrets: []
+#   service:
+#     type: ClusterIP
+#     port: 80
+  # resources:
+  #   requests:
+  #     cpu: 100m
+  #     memory: 64Mi
+  #   limits:
+  #     cpu: 200m
+  #     memory: 128Mi
+
+# Values para frontend
+frontend:
+  replicaCount: 1
+  image:
+    repository: gcr.io/google-samples/microservices-demo/frontend
+    tag: 0.2.0
+    pullPolicy: IfNotPresent
+  containers:
+    name: "server"
+  imagePullSecrets: []
+  service:
+    type: ClusterIP
+    port: 80
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+# Values para emailservice
+emailservice:
+  replicaCount: 1
+  image:
+    repository: gcr.io/google-samples/microservices-demo/emailservice
+    tag: 0.2.0
+    pullPolicy: IfNotPresent
+  containers:
+    name: "server"
+  imagePullSecrets: []
+  service:
+    type: ClusterIP
+    port: 5000
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+# Values para currencyservice
+currencyservice:
+  replicaCount: 1
+  image:
+    repository: gcr.io/google-samples/microservices-demo/currencyservice
+    tag: 0.2.0
+    pullPolicy: IfNotPresent
+  containers:
+    name: "server"
+  imagePullSecrets: []
+  service:
+    type: ClusterIP
+    port: 7000
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+# Values para checkoutservice
+checkoutservice:
+  replicaCount: 1
+  image:
+    repository: gcr.io/google-samples/microservices-demo/checkoutservice
+    tag: 0.2.0
+    pullPolicy: IfNotPresent
+  containers:
+    name: "server"
+  imagePullSecrets: []
+  service:
+    type: ClusterIP
+    port: 5050
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+  resources:
+    requests:
+      cpu: 100m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+# Values para cartservice
+cartservice:
+  replicaCount: 1
+  image:
+    repository: gcr.io/google-samples/microservices-demo/cartservice
+    tag: 0.2.0
+    pullPolicy: IfNotPresent
+  containers:
+    name: "server"
+  imagePullSecrets: []
+  service:
+    type: ClusterIP
+    port: 7070
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+  resources:
+    requests:
+      cpu: 200m
+      memory: 64Mi
+    limits:
+      cpu: 300m
+      memory: 128Mi
+
+# Values para adservice
+adservice:
+  replicaCount: 1
+  image:
+    repository: gcr.io/google-samples/microservices-demo/adservice
+    tag: 0.4.0
+    pullPolicy: IfNotPresent
+  containers:
+    name: "server"
+  imagePullSecrets: []
+  service:
+    type: ClusterIP
+    port: 9555
+  ingress:
+    enabled: false
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths: []
+    tls: []
+  resources:
+    requests:
+      cpu: 200m
+      memory: 180Mi
+    limits:
+      cpu: 300m
+      memory: 300Mi

@@ -1,18 +1,39 @@
-# Dependencies
-node_modules/
-*.lock
-.DS_Store
-
 # Build outputs
-dist/
+target/
 build/
+dist/
+*.class
+*.jar
+*.war
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*.iml
 
-# Local env files
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python
+__pycache__/
+*.py[cod]
+*\.class
+.Python
+venv/
+env/
+
+# Environment
 .env
 .env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+*.tmp
+*.log
