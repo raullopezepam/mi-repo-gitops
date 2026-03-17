@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
     - repoURL: https://github.com/raullopezepam/mi-repo-gitops.git
-      path: charts/hipstershop-demo/helm
+      path: charts/hipster-shop/hipstershop-demo/helm
       targetRevision: main
       helm:
         valueFiles:
