@@ -3,6 +3,8 @@ kind: Kustomization
 
 helmCharts:
 - name: frontend
-  path: ../../../../charts/frontend
+  # 🎯 Ruta correcta hacia donde están los planos del frontend
+  path: ../../../../hipstershop-demo/helm/charts/frontend 
   releaseName: hipster-frontend
-  valuesFile: ../../../../resources/apps/hipstershop/values.yaml
+  # 🎯 Ruta correcta hacia tus valores personalizados
+  valuesFile: ../../../../resources/hipstershop/values.yaml
