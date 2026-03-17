@@ -1,0 +1,115 @@
+---
+# Source: paymentservice/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: paymentservice
+  labels:
+
+    helm.sh/chart: paymentservice-0.1.0
+    app.kubernetes.io/name: paymentservice
+    app.kubernetes.io/instance: paymentservice
+    app: paymentservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: paymentservice/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: paymentservice
+  labels:
+    helm.sh/chart: paymentservice-0.1.0
+    app.kubernetes.io/name: paymentservice
+    app.kubernetes.io/instance: paymentservice
+    app: paymentservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 50051
+      targetPort: 50051
+      name: grpc
+  selector:
+    app.kubernetes.io/name: paymentservice
+    app.kubernetes.io/instance: paymentservice
+    app: paymentservice
+---
+# Source: paymentservice/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paymentservice
+  labels:
+    helm.sh/chart: paymentservice-0.1.0
+    app.kubernetes.io/name: paymentservice
+    app.kubernetes.io/instance: paymentservice
+    app: paymentservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: paymentservice
+      app.kubernetes.io/instance: paymentservice
+      app: paymentservice
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: paymentservice
+        app.kubernetes.io/instance: paymentservice
+        app: paymentservice
+    spec:
+      serviceAccountName: paymentservice
+      securityContext:
+        {}
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/paymentservice:v0.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 50051
+          env:
+          - name: PORT
+            value: "50051"          
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+---
+# Source: paymentservice/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "paymentservice-test-connection"
+  labels:
+
+    helm.sh/chart: paymentservice-0.1.0
+    app.kubernetes.io/name: paymentservice
+    app.kubernetes.io/instance: paymentservice
+    app: paymentservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['paymentservice:50051']
+  restartPolicy: Never

@@ -1,0 +1,127 @@
+---
+# Source: adservice/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: adservice
+  labels:
+
+    helm.sh/chart: adservice-0.1.0
+    app.kubernetes.io/name: adservice
+    app.kubernetes.io/instance: adservice
+    app: adservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: adservice/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: adservice
+  labels:
+    helm.sh/chart: adservice-0.1.0
+    app.kubernetes.io/name: adservice
+    app.kubernetes.io/instance: adservice
+    app: adservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app: 
+  ports:
+    - port: 9555
+      targetPort: 9555
+      name: grpc
+  selector:
+    app.kubernetes.io/name: adservice
+    app.kubernetes.io/instance: adservice
+    app: adservice
+---
+# Source: adservice/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adservice
+  labels:
+    helm.sh/chart: adservice-0.1.0
+    app.kubernetes.io/name: adservice
+    app.kubernetes.io/instance: adservice
+    app: adservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: adservice
+      app.kubernetes.io/instance: adservice
+      app: adservice
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: adservice
+        app.kubernetes.io/instance: adservice
+        app: adservice
+    spec:
+      serviceAccountName: adservice
+      securityContext:
+        {}
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/adservice:v0.4.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 9555
+          env:
+            - name: PORT
+              value: "9555"
+        # - name: DISABLE_STATS
+        #   value: "1"
+        # - name: DISABLE_TRACING
+        #   value: "1"
+        # - name: JAEGER_SERVICE_ADDR
+        #   value: "jaeger-collector:14268"
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9555"]
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9555"]
+          resources:
+            limits:
+              cpu: 300m
+              memory: 300Mi
+            requests:
+              cpu: 200m
+              memory: 180Mi
+---
+# Source: adservice/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "adservice-test-connection"
+  labels:
+
+    helm.sh/chart: adservice-0.1.0
+    app.kubernetes.io/name: adservice
+    app.kubernetes.io/instance: adservice
+    app: adservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['adservice:9555']
+  restartPolicy: Never

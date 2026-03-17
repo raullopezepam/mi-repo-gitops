@@ -1,0 +1,119 @@
+---
+# Source: emailservice/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: emailservice
+  labels:
+
+    helm.sh/chart: emailservice-0.1.0
+    app.kubernetes.io/name: emailservice
+    app.kubernetes.io/instance: emailservice
+    app: emailservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: emailservice/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: emailservice
+  labels:
+    helm.sh/chart: emailservice-0.1.0
+    app.kubernetes.io/name: emailservice
+    app.kubernetes.io/instance: emailservice
+    app: emailservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5000
+      targetPort: 8080
+      name: grpc
+  selector:
+    app.kubernetes.io/name: emailservice
+    app.kubernetes.io/instance: emailservice
+    app: emailservice
+---
+# Source: emailservice/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emailservice
+  labels:
+    helm.sh/chart: emailservice-0.1.0
+    app.kubernetes.io/name: emailservice
+    app.kubernetes.io/instance: emailservice
+    app: emailservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: emailservice
+      app.kubernetes.io/instance: emailservice
+      app: emailservice
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: emailservice
+        app.kubernetes.io/instance: emailservice
+        app: emailservice
+    spec:
+      serviceAccountName: emailservice
+      securityContext:
+        {}
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/emailservice:v0.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8080
+          env:
+          - name: PORT
+            value: "8080"
+          - name: DISABLE_PROFILER
+            value: "1"
+          readinessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+          livenessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+---
+# Source: emailservice/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "emailservice-test-connection"
+  labels:
+
+    helm.sh/chart: emailservice-0.1.0
+    app.kubernetes.io/name: emailservice
+    app.kubernetes.io/instance: emailservice
+    app: emailservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['emailservice:5000']
+  restartPolicy: Never
