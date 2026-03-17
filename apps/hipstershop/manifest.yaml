@@ -1,0 +1,1477 @@
+---
+# Source: hipstershop/charts/adservice/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hipstershop-adservice
+  labels:
+
+    helm.sh/chart: adservice-0.1.0
+    app.kubernetes.io/name: adservice
+    app.kubernetes.io/instance: hipstershop
+    app: adservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: hipstershop/charts/cartservice/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hipstershop-cartservice
+  labels:
+
+    helm.sh/chart: cartservice-0.1.0
+    app.kubernetes.io/name: cartservice
+    app.kubernetes.io/instance: hipstershop
+    app: cartservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: hipstershop/charts/checkoutservice/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hipstershop-checkoutservice
+  labels:
+
+    helm.sh/chart: checkoutservice-0.1.0
+    app.kubernetes.io/name: checkoutservice
+    app.kubernetes.io/instance: hipstershop
+    app: checkoutservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: hipstershop/charts/currencyservice/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hipstershop-currencyservice
+  labels:
+
+    helm.sh/chart: currencyservice-0.1.0
+    app.kubernetes.io/name: currencyservice
+    app.kubernetes.io/instance: hipstershop
+    app: currencyservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: hipstershop/charts/emailservice/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hipstershop-emailservice
+  labels:
+
+    helm.sh/chart: emailservice-0.1.0
+    app.kubernetes.io/name: emailservice
+    app.kubernetes.io/instance: hipstershop
+    app: emailservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: hipstershop/charts/frontend/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hipstershop-frontend
+  labels:
+
+    helm.sh/chart: frontend-0.1.0
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/instance: hipstershop
+    app: frontend
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: hipstershop/charts/loadgenerator/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hipstershop-loadgenerator
+  labels:
+
+    helm.sh/chart: loadgenerator-0.1.0
+    app.kubernetes.io/name: loadgenerator
+    app.kubernetes.io/instance: hipstershop
+    app: loadgenerator
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: hipstershop/charts/paymentservice/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hipstershop-paymentservice
+  labels:
+
+    helm.sh/chart: paymentservice-0.1.0
+    app.kubernetes.io/name: paymentservice
+    app.kubernetes.io/instance: hipstershop
+    app: paymentservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: hipstershop/charts/productcatalogservice/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hipstershop-productcatalogservice
+  labels:
+
+    helm.sh/chart: productcatalogservice-0.1.0
+    app.kubernetes.io/name: productcatalogservice
+    app.kubernetes.io/instance: hipstershop
+    app: productcatalogservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: hipstershop/charts/recommendationservice/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hipstershop-recommendationservice
+  labels:
+
+    helm.sh/chart: recommendationservice-0.1.0
+    app.kubernetes.io/name: recommendationservice
+    app.kubernetes.io/instance: hipstershop
+    app: recommendationservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: hipstershop/charts/redis-cart/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hipstershop-redis-cart
+  labels:
+    helm.sh/chart: redis-cart-0.1.0
+    app.kubernetes.io/name: redis-cart
+    app.kubernetes.io/instance: hipstershop
+    app: redis-cart
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: hipstershop/charts/shippingservice/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hipstershop-shippingservice
+  labels:
+
+    helm.sh/chart: shippingservice-0.1.0
+    app.kubernetes.io/name: shippingservice
+    app.kubernetes.io/instance: hipstershop
+    app: shippingservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: hipstershop/charts/adservice/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: adservice
+  labels:
+    helm.sh/chart: adservice-0.1.0
+    app.kubernetes.io/name: adservice
+    app.kubernetes.io/instance: hipstershop
+    app: adservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app: 
+  ports:
+    - port: 9555
+      targetPort: 9555
+      name: grpc
+  selector:
+    app.kubernetes.io/name: adservice
+    app.kubernetes.io/instance: hipstershop
+    app: adservice
+---
+# Source: hipstershop/charts/cartservice/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: cartservice
+  labels:
+    helm.sh/chart: cartservice-0.1.0
+    app.kubernetes.io/name: cartservice
+    app.kubernetes.io/instance: hipstershop
+    app: cartservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 7070
+      targetPort: 7070
+      name: grpc
+  selector:
+    app.kubernetes.io/name: cartservice
+    app.kubernetes.io/instance: hipstershop
+    app: cartservice
+---
+# Source: hipstershop/charts/checkoutservice/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkoutservice
+  labels:
+    helm.sh/chart: checkoutservice-0.1.0
+    app.kubernetes.io/name: checkoutservice
+    app.kubernetes.io/instance: hipstershop
+    app: checkoutservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5050
+      targetPort: 5050
+      name: grpc
+  selector:
+    app.kubernetes.io/name: checkoutservice
+    app.kubernetes.io/instance: hipstershop
+    app: checkoutservice
+---
+# Source: hipstershop/charts/currencyservice/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: currencyservice
+  labels:
+    helm.sh/chart: currencyservice-0.1.0
+    app.kubernetes.io/name: currencyservice
+    app.kubernetes.io/instance: hipstershop
+    app: currencyservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 7000
+      targetPort: 7000
+      name: grpc
+  selector:
+    app.kubernetes.io/name: currencyservice
+    app.kubernetes.io/instance: hipstershop
+    app: currencyservice
+---
+# Source: hipstershop/charts/emailservice/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: emailservice
+  labels:
+    helm.sh/chart: emailservice-0.1.0
+    app.kubernetes.io/name: emailservice
+    app.kubernetes.io/instance: hipstershop
+    app: emailservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5000
+      targetPort: 8080
+      name: grpc
+  selector:
+    app.kubernetes.io/name: emailservice
+    app.kubernetes.io/instance: hipstershop
+    app: emailservice
+---
+# Source: hipstershop/charts/frontend/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  labels:
+    helm.sh/chart: frontend-0.1.0
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/instance: hipstershop
+    app: frontend
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+      name: http
+  selector:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/instance: hipstershop
+    app: frontend
+---
+# Source: hipstershop/charts/frontend/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-external
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+---
+# Source: hipstershop/charts/paymentservice/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: paymentservice
+  labels:
+    helm.sh/chart: paymentservice-0.1.0
+    app.kubernetes.io/name: paymentservice
+    app.kubernetes.io/instance: hipstershop
+    app: paymentservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 50051
+      targetPort: 50051
+      name: grpc
+  selector:
+    app.kubernetes.io/name: paymentservice
+    app.kubernetes.io/instance: hipstershop
+    app: paymentservice
+---
+# Source: hipstershop/charts/productcatalogservice/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: productcatalogservice
+  labels:
+    helm.sh/chart: productcatalogservice-0.1.0
+    app.kubernetes.io/name: productcatalogservice
+    app.kubernetes.io/instance: hipstershop
+    app: productcatalogservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3550
+      targetPort: 3550
+      name: grpc
+  selector:
+    app.kubernetes.io/name: productcatalogservice
+    app.kubernetes.io/instance: hipstershop
+    app: productcatalogservice
+---
+# Source: hipstershop/charts/recommendationservice/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: recommendationservice
+  labels:
+    helm.sh/chart: recommendationservice-0.1.0
+    app.kubernetes.io/name: recommendationservice
+    app.kubernetes.io/instance: hipstershop
+    app: recommendationservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: grpc
+  selector:
+    app.kubernetes.io/name: recommendationservice
+    app.kubernetes.io/instance: hipstershop
+    app: recommendationservice
+---
+# Source: hipstershop/charts/redis-cart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-cart
+  labels:
+    helm.sh/chart: redis-cart-0.1.0
+    app.kubernetes.io/name: redis-cart
+    app.kubernetes.io/instance: hipstershop
+    app: redis-cart
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: 6379
+      name: redis
+  selector:
+    app.kubernetes.io/name: redis-cart
+    app.kubernetes.io/instance: hipstershop
+    app: redis-cart
+---
+# Source: hipstershop/charts/shippingservice/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: shippingservice
+  labels:
+    helm.sh/chart: shippingservice-0.1.0
+    app.kubernetes.io/name: shippingservice
+    app.kubernetes.io/instance: hipstershop
+    app: shippingservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 50051
+      targetPort: 50051
+      name: grpc
+  selector:
+    app.kubernetes.io/name: shippingservice
+    app.kubernetes.io/instance: hipstershop
+    app: shippingservice
+---
+# Source: hipstershop/charts/adservice/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adservice
+  labels:
+    helm.sh/chart: adservice-0.1.0
+    app.kubernetes.io/name: adservice
+    app.kubernetes.io/instance: hipstershop
+    app: adservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: adservice
+      app.kubernetes.io/instance: hipstershop
+      app: adservice
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: adservice
+        app.kubernetes.io/instance: hipstershop
+        app: adservice
+    spec:
+      serviceAccountName: hipstershop-adservice
+      securityContext:
+        {}
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/adservice:v0.4.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 9555
+          env:
+            - name: PORT
+              value: "9555"
+        # - name: DISABLE_STATS
+        #   value: "1"
+        # - name: DISABLE_TRACING
+        #   value: "1"
+        # - name: JAEGER_SERVICE_ADDR
+        #   value: "jaeger-collector:14268"
+          livenessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9555"]
+          readinessProbe:
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:9555"]
+          resources:
+            limits:
+              cpu: 300m
+              memory: 300Mi
+            requests:
+              cpu: 200m
+              memory: 180Mi
+---
+# Source: hipstershop/charts/cartservice/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cartservice
+  labels:
+    helm.sh/chart: cartservice-0.1.0
+    app.kubernetes.io/name: cartservice
+    app.kubernetes.io/instance: hipstershop
+    app: cartservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cartservice
+      app.kubernetes.io/instance: hipstershop
+      app: cartservice
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: cartservice
+        app.kubernetes.io/instance: hipstershop
+        app: cartservice
+    spec:
+      serviceAccountName: hipstershop-cartservice
+      securityContext:
+        {}
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/cartservice:v0.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 7070
+          env:
+          - name: REDIS_ADDR
+            value: "redis-cart:6379"
+          - name: PORT
+            value: "7070"
+          - name: LISTEN_ADDR
+            value: "0.0.0.0"          
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:7070", "-rpc-timeout=5s"]
+          readinessProbe:
+            initialDelaySeconds: 15
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:7070", "-rpc-timeout=5s"]
+          resources:
+            limits:
+              cpu: 300m
+              memory: 128Mi
+            requests:
+              cpu: 200m
+              memory: 64Mi
+---
+# Source: hipstershop/charts/checkoutservice/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkoutservice
+  labels:
+    helm.sh/chart: checkoutservice-0.1.0
+    app.kubernetes.io/name: checkoutservice
+    app.kubernetes.io/instance: hipstershop
+    app: checkoutservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: checkoutservice
+      app.kubernetes.io/instance: hipstershop
+      app: checkoutservice
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: checkoutservice
+        app.kubernetes.io/instance: hipstershop
+        app: checkoutservice
+    spec:
+      serviceAccountName: hipstershop-checkoutservice
+      securityContext:
+        {}
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/checkoutservice:v0.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 5050
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:5050"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:5050"]
+          env:
+          - name: PORT
+            value: "5050"
+          - name: PRODUCT_CATALOG_SERVICE_ADDR
+            value: "productcatalogservice:3550"
+          - name: SHIPPING_SERVICE_ADDR
+            value: "shippingservice:50051"
+          - name: PAYMENT_SERVICE_ADDR
+            value: "paymentservice:50051"
+          - name: EMAIL_SERVICE_ADDR
+            value: "emailservice:5000"
+          - name: CURRENCY_SERVICE_ADDR
+            value: "currencyservice:7000"
+          - name: CART_SERVICE_ADDR
+            value: "cartservice:7070"
+          # - name: DISABLE_STATS
+          #   value: "1"
+          # - name: DISABLE_TRACING
+          #   value: "1"
+          # - name: DISABLE_PROFILER
+          #   value: "1"
+          # - name: JAEGER_SERVICE_ADDR
+          #   value: "jaeger-collector:14268"            
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+---
+# Source: hipstershop/charts/currencyservice/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: currencyservice
+  labels:
+    helm.sh/chart: currencyservice-0.1.0
+    app.kubernetes.io/name: currencyservice
+    app.kubernetes.io/instance: hipstershop
+    app: currencyservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: currencyservice
+      app.kubernetes.io/instance: hipstershop
+      app: currencyservice
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: currencyservice
+        app.kubernetes.io/instance: hipstershop
+        app: currencyservice
+    spec:
+      serviceAccountName: hipstershop-currencyservice
+      securityContext:
+        {}
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/currencyservice:v0.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - name: grpc
+            containerPort: 7000
+          env:
+          - name: PORT
+            value: "7000"
+        # - name: DISABLE_TRACING
+        #   value: "1"
+        # - name: DISABLE_PROFILER
+        #   value: "1"
+        # - name: DISABLE_DEBUGGER
+        #   value: "1"            
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:7000"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:7000"]
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+---
+# Source: hipstershop/charts/emailservice/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emailservice
+  labels:
+    helm.sh/chart: emailservice-0.1.0
+    app.kubernetes.io/name: emailservice
+    app.kubernetes.io/instance: hipstershop
+    app: emailservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: emailservice
+      app.kubernetes.io/instance: hipstershop
+      app: emailservice
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: emailservice
+        app.kubernetes.io/instance: hipstershop
+        app: emailservice
+    spec:
+      serviceAccountName: hipstershop-emailservice
+      securityContext:
+        {}
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/emailservice:v0.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8080
+          env:
+          - name: PORT
+            value: "8080"
+          - name: DISABLE_PROFILER
+            value: "1"
+          readinessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+          livenessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+---
+# Source: hipstershop/charts/frontend/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    helm.sh/chart: frontend-0.1.0
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/instance: hipstershop
+    app: frontend
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: frontend
+      app.kubernetes.io/instance: hipstershop
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: frontend
+        app.kubernetes.io/instance: hipstershop
+        app: frontend
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+    spec:
+      serviceAccountName: hipstershop-frontend
+      securityContext:
+        {}
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/frontend:v0.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8080
+          readinessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: "/_healthz"
+              port: 8080
+              httpHeaders:
+              - name: "Cookie"
+                value: "shop_session-id=x-readiness-probe"
+          livenessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: "/_healthz"
+              port: 8080
+              httpHeaders:
+              - name: "Cookie"
+                value: "shop_session-id=x-liveness-probe"
+          env:
+          - name: PORT
+            value: "8080"
+          - name: PRODUCT_CATALOG_SERVICE_ADDR
+            value: "productcatalogservice:3550"
+          - name: CURRENCY_SERVICE_ADDR
+            value: "currencyservice:7000"
+          - name: CART_SERVICE_ADDR
+            value: "cartservice:7070"
+          - name: RECOMMENDATION_SERVICE_ADDR
+            value: "recommendationservice:8080"
+          - name: SHIPPING_SERVICE_ADDR
+            value: "shippingservice:50051"
+          - name: CHECKOUT_SERVICE_ADDR
+            value: "checkoutservice:5050"
+          - name: AD_SERVICE_ADDR
+            value: "adservice:9555"
+          # - name: DISABLE_TRACING
+          #   value: "1"
+          # - name: DISABLE_PROFILER
+          #   value: "1"
+          # - name: JAEGER_SERVICE_ADDR
+          #   value: "jaeger-collector:14268"
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+---
+# Source: hipstershop/charts/loadgenerator/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loadgenerator
+  labels:
+    helm.sh/chart: loadgenerator-0.1.0
+    app.kubernetes.io/name: loadgenerator
+    app.kubernetes.io/instance: hipstershop
+    app: loadgenerator
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: loadgenerator
+      app.kubernetes.io/instance: hipstershop
+      app: loadgenerator
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: loadgenerator
+        app.kubernetes.io/instance: hipstershop
+        app: loadgenerator
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"        
+    spec:
+      serviceAccountName: hipstershop-loadgenerator
+      securityContext:
+        {}
+      terminationGracePeriodSeconds: 5
+      restartPolicy: Always
+      containers:
+        - name: main
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/loadgenerator:v0.2.0"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: FRONTEND_ADDR
+            value: "frontend:80"
+          - name: USERS
+            value: "10"
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 300m
+              memory: 256Mi
+---
+# Source: hipstershop/charts/paymentservice/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paymentservice
+  labels:
+    helm.sh/chart: paymentservice-0.1.0
+    app.kubernetes.io/name: paymentservice
+    app.kubernetes.io/instance: hipstershop
+    app: paymentservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: paymentservice
+      app.kubernetes.io/instance: hipstershop
+      app: paymentservice
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: paymentservice
+        app.kubernetes.io/instance: hipstershop
+        app: paymentservice
+    spec:
+      serviceAccountName: hipstershop-paymentservice
+      securityContext:
+        {}
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/paymentservice:v0.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 50051
+          env:
+          - name: PORT
+            value: "50051"          
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+---
+# Source: hipstershop/charts/productcatalogservice/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: productcatalogservice
+  labels:
+    helm.sh/chart: productcatalogservice-0.1.0
+    app.kubernetes.io/name: productcatalogservice
+    app.kubernetes.io/instance: hipstershop
+    app: productcatalogservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: productcatalogservice
+      app.kubernetes.io/instance: hipstershop
+      app: productcatalogservice
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: productcatalogservice
+        app.kubernetes.io/instance: hipstershop
+        app: productcatalogservice
+    spec:
+      serviceAccountName: hipstershop-productcatalogservice
+      securityContext:
+        {}
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/productcatalogservice:v0.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 3550
+          env:
+          - name: PORT
+            value: "3550"
+        # - name: DISABLE_STATS
+        #   value: "1"
+        # - name: DISABLE_TRACING
+        #   value: "1"
+        # - name: DISABLE_PROFILER
+        #   value: "1"
+        # - name: JAEGER_SERVICE_ADDR
+        #   value: "jaeger-collector:14268"            
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:3550"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:3550"]
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+---
+# Source: hipstershop/charts/recommendationservice/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendationservice
+  labels:
+    helm.sh/chart: recommendationservice-0.1.0
+    app.kubernetes.io/name: recommendationservice
+    app.kubernetes.io/instance: hipstershop
+    app: recommendationservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: recommendationservice
+      app.kubernetes.io/instance: hipstershop
+      app: recommendationservice
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: recommendationservice
+        app.kubernetes.io/instance: hipstershop
+        app: recommendationservice
+    spec:
+      serviceAccountName: hipstershop-recommendationservice
+      securityContext:
+        {}
+      terminationGracePeriodSeconds: 5
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/recommendationservice:v0.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8080
+          env:
+          - name: PORT
+            value: "8080"
+          - name: PRODUCT_CATALOG_SERVICE_ADDR
+            value: "productcatalogservice:3550"
+          - name: DISABLE_TRACING
+            value: "1"
+          - name: DISABLE_PROFILER
+            value: "1"
+          - name: DISABLE_DEBUGGER
+            value: "1"        
+          readinessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+          livenessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+          resources:
+            limits:
+              cpu: 200m
+              memory: 450Mi
+            requests:
+              cpu: 100m
+              memory: 220Mi
+---
+# Source: hipstershop/charts/redis-cart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-cart
+  labels:
+    helm.sh/chart: redis-cart-0.1.0
+    app.kubernetes.io/name: redis-cart
+    app.kubernetes.io/instance: hipstershop
+    app: redis-cart
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis-cart
+      app.kubernetes.io/instance: hipstershop
+      app: redis-cart
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis-cart
+        app.kubernetes.io/instance: hipstershop
+        app: redis-cart
+    spec:
+      serviceAccountName: hipstershop-redis-cart
+      securityContext:
+        {}
+      containers:
+        - name: redis
+          securityContext:
+            {}
+          image: "redis:alpine"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - name: redis
+            containerPort: 6379
+          readinessProbe:
+            periodSeconds: 5
+            tcpSocket:
+              port: 6379
+          livenessProbe:
+            periodSeconds: 5
+            tcpSocket:
+              port: 6379
+          resources:
+            limits:
+              cpu: 125m
+              memory: 256Mi
+            requests:
+              cpu: 70m
+              memory: 200Mi
+          volumeMounts:
+          - mountPath: /data
+            name: redis-data
+      volumes:
+      - name: redis-data
+        emptyDir: {}
+---
+# Source: hipstershop/charts/shippingservice/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shippingservice
+  labels:
+    helm.sh/chart: shippingservice-0.1.0
+    app.kubernetes.io/name: shippingservice
+    app.kubernetes.io/instance: hipstershop
+    app: shippingservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: shippingservice
+      app.kubernetes.io/instance: hipstershop
+      app: shippingservice
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: shippingservice
+        app.kubernetes.io/instance: hipstershop
+        app: shippingservice
+    spec:
+      serviceAccountName: hipstershop-shippingservice
+      securityContext:
+        {}
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "gcr.io/google-samples/microservices-demo/shippingservice:v0.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 50051
+          env:
+          - name: PORT
+            value: "50051"
+        # - name: DISABLE_STATS
+        #   value: "1"
+        # - name: DISABLE_TRACING
+        #   value: "1"
+        # - name: DISABLE_PROFILER
+        #   value: "1"
+        # - name: JAEGER_SERVICE_ADDR
+        #   value: "jaeger-collector:14268"          
+          readinessProbe:
+            periodSeconds: 5
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:50051"]           
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+---
+# Source: hipstershop/charts/adservice/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "hipstershop-adservice-test-connection"
+  labels:
+
+    helm.sh/chart: adservice-0.1.0
+    app.kubernetes.io/name: adservice
+    app.kubernetes.io/instance: hipstershop
+    app: adservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['hipstershop-adservice:9555']
+  restartPolicy: Never
+---
+# Source: hipstershop/charts/cartservice/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "hipstershop-cartservice-test-connection"
+  labels:
+
+    helm.sh/chart: cartservice-0.1.0
+    app.kubernetes.io/name: cartservice
+    app.kubernetes.io/instance: hipstershop
+    app: cartservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['hipstershop-cartservice:7070']
+  restartPolicy: Never
+---
+# Source: hipstershop/charts/checkoutservice/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "hipstershop-checkoutservice-test-connection"
+  labels:
+
+    helm.sh/chart: checkoutservice-0.1.0
+    app.kubernetes.io/name: checkoutservice
+    app.kubernetes.io/instance: hipstershop
+    app: checkoutservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['hipstershop-checkoutservice:5050']
+  restartPolicy: Never
+---
+# Source: hipstershop/charts/currencyservice/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "hipstershop-currencyservice-test-connection"
+  labels:
+
+    helm.sh/chart: currencyservice-0.1.0
+    app.kubernetes.io/name: currencyservice
+    app.kubernetes.io/instance: hipstershop
+    app: currencyservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['hipstershop-currencyservice:7000']
+  restartPolicy: Never
+---
+# Source: hipstershop/charts/emailservice/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "hipstershop-emailservice-test-connection"
+  labels:
+
+    helm.sh/chart: emailservice-0.1.0
+    app.kubernetes.io/name: emailservice
+    app.kubernetes.io/instance: hipstershop
+    app: emailservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['hipstershop-emailservice:5000']
+  restartPolicy: Never
+---
+# Source: hipstershop/charts/frontend/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "hipstershop-frontend-test-connection"
+  labels:
+
+    helm.sh/chart: frontend-0.1.0
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/instance: hipstershop
+    app: frontend
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['hipstershop-frontend:80']
+  restartPolicy: Never
+---
+# Source: hipstershop/charts/loadgenerator/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "hipstershop-loadgenerator-test-connection"
+  labels:
+
+    helm.sh/chart: loadgenerator-0.1.0
+    app.kubernetes.io/name: loadgenerator
+    app.kubernetes.io/instance: hipstershop
+    app: loadgenerator
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['hipstershop-loadgenerator:80']
+  restartPolicy: Never
+---
+# Source: hipstershop/charts/paymentservice/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "hipstershop-paymentservice-test-connection"
+  labels:
+
+    helm.sh/chart: paymentservice-0.1.0
+    app.kubernetes.io/name: paymentservice
+    app.kubernetes.io/instance: hipstershop
+    app: paymentservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['hipstershop-paymentservice:50051']
+  restartPolicy: Never
+---
+# Source: hipstershop/charts/productcatalogservice/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "hipstershop-productcatalogservice-test-connection"
+  labels:
+
+    helm.sh/chart: productcatalogservice-0.1.0
+    app.kubernetes.io/name: productcatalogservice
+    app.kubernetes.io/instance: hipstershop
+    app: productcatalogservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['hipstershop-productcatalogservice:3550']
+  restartPolicy: Never
+---
+# Source: hipstershop/charts/recommendationservice/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "hipstershop-recommendationservice-test-connection"
+  labels:
+
+    helm.sh/chart: recommendationservice-0.1.0
+    app.kubernetes.io/name: recommendationservice
+    app.kubernetes.io/instance: hipstershop
+    app: recommendationservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['hipstershop-recommendationservice:8080']
+  restartPolicy: Never
+---
+# Source: hipstershop/charts/redis-cart/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "hipstershop-redis-cart-test-connection"
+  labels:
+    helm.sh/chart: redis-cart-0.1.0
+    app.kubernetes.io/name: redis-cart
+    app.kubernetes.io/instance: hipstershop
+    app: redis-cart
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['hipstershop-redis-cart:6379']
+  restartPolicy: Never
+---
+# Source: hipstershop/charts/shippingservice/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "hipstershop-shippingservice-test-connection"
+  labels:
+
+    helm.sh/chart: shippingservice-0.1.0
+    app.kubernetes.io/name: shippingservice
+    app.kubernetes.io/instance: hipstershop
+    app: shippingservice
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['hipstershop-shippingservice:50051']
+  restartPolicy: Never
