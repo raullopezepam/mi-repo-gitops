@@ -8,10 +8,10 @@ spec:
   source:
     repoURL: https://github.com/raullopezepam/mi-repo-gitops.git
     path: manifests/apps/__overlays
-    targetRevision: main # ⚠️ Asegúrate de que tu rama se llame 'main' y no 'master'
+    targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd # 👈 Importante: Las definiciones de apps viven en el namespace de Argo
+    namespace: default
   syncPolicy:
     automated:
       prune: true
