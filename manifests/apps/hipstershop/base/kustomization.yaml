@@ -3,7 +3,6 @@ kind: Kustomization
 
 helmCharts:
 - name: frontend
-  version: v1 # Kustomize suele pedir una versión aunque sea local
   releaseName: hipster-frontend
   # La ruta debe ser relativa al archivo kustomization.yaml
   path: ../../../../hipstershop-demo/helm/charts/frontend 
