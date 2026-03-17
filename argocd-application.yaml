@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/tu-usuario/mi-repo-gitops  # 👈 Reemplaza con tu repo real
+    repoURL: https://github.com/raullopezepam/mi-repo-gitops.git
     targetRevision: HEAD
     path: apps/hipstershop
   destination:
