@@ -1,6 +1,0 @@
-image:
-  repository: gcr.io/google-samples/microservices-demo/frontend
-  tag: v0.2.0
-service:
-  type: ClusterIP
-  port: 80
