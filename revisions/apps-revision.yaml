@@ -7,7 +7,7 @@ spec:
   project: default
   
   source:
-    repoURL: https://github.com/raullopez1/mi-repo-gitops.git
+    repoURL: https://github.com/raullopezepam/mi-repo-gitops.git
     targetRevision: main
     path: manifests/apps/__overlays
   

@@ -5,15 +5,15 @@ namespace: default
 
 # Todos los servicios del hipstershop - comenta/descomenta los que necesites deplorar
 resources:
-  - ../adservice
-  - ../cartservice
-  - ../checkoutservice
-  - ../currencyservice
-  - ../emailservice
-  - ../frontend
-  - ../loadgenerator
-  - ../paymentservice
-  - ../productcatalogservice
-  - ../recommendationservice
-  - ../redis-cart
-  - ../shippingservice
+  - ../hipster-demo/adservice
+  - ../hipster-demo/cartservice
+  - ../hipster-demo/checkoutservice
+  - ../hipster-demo/currencyservice
+  - ../hipster-demo/emailservice
+  - ../hipster-demo/frontend
+  - ../hipster-demo/loadgenerator
+  - ../hipster-demo/paymentservice
+  - ../hipster-demo/productcatalogservice
+  - ../hipster-demo/recommendationservice
+  - ../hipster-demo/redis-cart
+  - ../hipster-demo/shippingservice
