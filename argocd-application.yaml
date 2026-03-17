@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/raullopezepam/mi-repo-gitops.git
     targetRevision: HEAD
-    path: apps/hipstershop
+    path: manifests/apps/hipster-demo/base
   destination:
     server: https://kubernetes.default.svc
     namespace: default
