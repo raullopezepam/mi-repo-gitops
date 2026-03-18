@@ -1,0 +1,23 @@
+# La imagen específica
+image:
+  registry: registry-1.docker.io
+  repository: bitnamilegacy/postgresql
+  tag: 17.6.0-debian-12-r4
+  digest: ""
+
+fullnameOverride: ""
+
+# Las credenciales
+auth:
+  postgresPassword: "admin"
+  username: "raul"
+  password: "raul"
+  database: "neoris_db"
+
+# Configuración de red personalizada
+primary:
+  service:
+    ports:
+      postgresql: 8888 # Este es el PORT para diferenciarlo del target port
+  persistence:
+    enabled: false 
