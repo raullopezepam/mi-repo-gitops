@@ -2,5 +2,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../postgres/lab
-  - ../hipstershop-demo/lab
+  # - ../postgres/lab
+  # - ../hipstershop-demo/lab
