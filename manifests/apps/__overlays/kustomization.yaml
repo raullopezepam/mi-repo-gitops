@@ -3,4 +3,4 @@ kind: Kustomization
 
 resources:
   - ../postgres/lab
-  # - ../hipstershop-demo/lab
+  - ../hipstershop-demo/lab
