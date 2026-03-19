@@ -9,7 +9,7 @@ postgresql:
   enabled: true
   image:
     # Esta versión es estable y existe en el registro de Bitnami
-    tag: 16.2.0-debian-12-r8 
+    tag: 16.3.0-debian-12-r24 
   auth:
     database: keycloak_db
     username: bn_keycloak
