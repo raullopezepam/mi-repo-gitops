@@ -1,0 +1,25 @@
+{
+  "realm": "EPAM-Project",
+  "enabled": true,
+  "roles": {
+    "realm": [
+      { "name": "admin_role" },
+      { "name": "viewer_role" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "internal-app",
+      "enabled": true,
+      "publicClient": true,
+      "redirectUris": ["*"],
+      "defaultClientScopes": ["web-origins", "roles"]
+    }
+  ],
+  "clientScopes": [
+    {
+      "name": "enterprise-scope",
+      "protocol": "openid-connect"
+    }
+  ]
+}
