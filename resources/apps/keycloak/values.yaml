@@ -1,15 +1,24 @@
 # resources/apps/keycloak/values.yaml
-
 image:
   repository: bitnamilegacy/keycloak
   tag: 26.3.1-debian-12-r2
 
-# Configuración de persistencia corrigiendo el error de imagen
 postgresql:
   enabled: true
   image:
-    repository: bitnamilegacy/postgresql
-    tag: 17.6.0-debian-12-r4
+    repository: bitnamilegacy/postgresql 
+    tag: 17.6.0-debian-12-r4 
+  
+  # ESTO ARREGLA EL PERMISSION DENIED
+  volumePermissions:
+    enabled: true
+  
+  primary:
+    podSecurityContext:
+      fsGroup: 1001
+    containerSecurityContext:
+      runAsUser: 1001
+
   auth:
     database: keycloak_db
     username: bn_keycloak
