@@ -1,21 +1,24 @@
 # resources/apps/keycloak/values.yaml
+
 image:
   repository: bitnamilegacy/keycloak
   tag: 26.3.1-debian-12-r2
 
-# Persistencia obligatoria para no perder la configuración
+# Configuración de persistencia corrigiendo el error de imagen
 postgresql:
   enabled: true
+  image:
+    # Esta versión es estable y existe en el registro de Bitnami
+    tag: 16.2.0-debian-12-r8 
   auth:
     database: keycloak_db
     username: bn_keycloak
     password: epam_password
 
-# Automatización: Config CLI Job
+# Automatización del Config CLI
 keycloakConfigCli:
   enabled: true
   configuration: 
-    # Este JSON define el "estado deseado" dentro de Keycloak
     realm-epam.json: |
       {
         "realm": "EPAM-Internal",
@@ -26,12 +29,6 @@ keycloakConfigCli:
             { "name": "app-viewer" }
           ]
         },
-        "clientScopes": [
-          {
-            "name": "corporate-auth",
-            "protocol": "openid-connect"
-          }
-        ],
         "clients": [
           {
             "clientId": "portal-client",
