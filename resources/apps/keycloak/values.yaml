@@ -1,24 +1,24 @@
 # resources/apps/keycloak/values.yaml
+
 image:
   repository: bitnamilegacy/keycloak
   tag: 26.3.1-debian-12-r2
 
+# Configuración de Vara (Postgres) con el fix de permisos
 postgresql:
   enabled: true
   image:
     repository: bitnamilegacy/postgresql 
     tag: 17.6.0-debian-12-r4 
   
-  # ESTO ARREGLA EL PERMISSION DENIED
+  # ESTO ES LO QUE TE FALTA:
   volumePermissions:
-    enabled: true
+    enabled: true  # Crea un contenedor temporal que arregla los permisos del disco
   
   primary:
     podSecurityContext:
-      fsGroup: 1001
-    containerSecurityContext:
-      runAsUser: 1001
-
+      fsGroup: 1001 # Alinea el disco con el usuario de Bitnami
+  
   auth:
     database: keycloak_db
     username: bn_keycloak
