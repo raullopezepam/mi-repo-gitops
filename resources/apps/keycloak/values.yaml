@@ -11,16 +11,15 @@ postgresql:
     repository: bitnamilegacy/postgresql 
     tag: 17.6.0-debian-12-r4 
   
-  # ESTO ES LO QUE TE FALTA:
   volumePermissions:
-    enabled: true  # Crea un contenedor temporal que arregla los permisos del disco
+    enabled: true
     image:
       repository: bitnamilegacy/os-shell
       tag: 12-debian-12-r51
   
   primary:
     podSecurityContext:
-      fsGroup: 1001 # Alinea el disco con el usuario de Bitnami
+      fsGroup: 1001 
   
   auth:
     database: keycloak_db
@@ -30,6 +29,9 @@ postgresql:
 # Automatización del Config CLI
 keycloakConfigCli:
   enabled: true
+  image:
+    repository: bitnamilegacy/keycloak-config-cli
+    tag: 6.4.0-debian-12-r10
   configuration: 
     realm-epam.json: |
       {
