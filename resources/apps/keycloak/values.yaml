@@ -1,6 +1,6 @@
 # resources/apps/keycloak/values.yaml
 
-# 1. CREDENCIALES FIJAS PARA EL ADMIN (Fuera de postgresql)
+
 auth:
   adminUser: user
   adminPassword: user
@@ -26,7 +26,7 @@ postgresql:
     username: bn_keycloak
     password: epam_password
 
-# 2. AUTOMATIZACIÓN (Vigila la sangría aquí)
+
 keycloakConfigCli:
   enabled: true
   image:
