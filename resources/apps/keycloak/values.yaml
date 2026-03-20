@@ -14,6 +14,9 @@ postgresql:
   # ESTO ES LO QUE TE FALTA:
   volumePermissions:
     enabled: true  # Crea un contenedor temporal que arregla los permisos del disco
+    image:
+      repository: bitnamilegacy/os-shell
+      tag: 12-debian-12-r26
   
   primary:
     podSecurityContext:
