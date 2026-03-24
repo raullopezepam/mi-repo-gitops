@@ -5,4 +5,4 @@ resources:
 
 # ESTO ES LO QUE INVOCA A KSOPS PARA DESCIFRAR
 generators:
-  - ../../../resources/apps/keycloak/secrets/keycloak-secrets.enc.yaml
+  - ../../resources/apps/keycloak/secrets/keycloak-secrets.enc.yaml
