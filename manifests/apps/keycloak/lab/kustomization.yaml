@@ -3,5 +3,3 @@ kind: Kustomization
 
 resources:
   - ../base
-  # Añadimos la ruta al Secreto Sellado (4 niveles hacia arriba para llegar a la raíz)
-  - ../../../../resources/apps/keycloak/secrets/keycloak-helm-sealedsecret.yaml
