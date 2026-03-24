@@ -4,4 +4,5 @@ metadata:
   name: argocd-cm
   namespace: argocd
 data:
-  kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
+  # AÑADIMOS EL LOAD-RESTRICTOR AL FINAL
+  kustomize.buildOptions: "--enable-alpha-plugins --enable-exec --load-restrictor LoadRestrictionsNone"
