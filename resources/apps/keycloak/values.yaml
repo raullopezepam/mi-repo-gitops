@@ -1,6 +1,4 @@
 # resources/apps/keycloak/values.yaml
-
-
 auth:
   adminUser: user
   adminPassword: user
