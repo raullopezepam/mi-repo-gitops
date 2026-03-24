@@ -1,8 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 resources:
   - ../base
-
-# ESTO ES LO QUE INVOCA A KSOPS PARA DESCIFRAR
-generators:
-  - ../../../../resources/apps/keycloak/secrets/ksops-generator.yaml
+  # Añadimos la ruta al Secreto Sellado (4 niveles hacia arriba para llegar a la raíz)
+  - ../../../../resources/apps/keycloak/secrets/keycloak-helm-sealedsecret.yaml

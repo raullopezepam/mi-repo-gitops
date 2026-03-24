@@ -1,4 +1,3 @@
-# manifests/apps/keycloak/base/helmrelease.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -7,18 +6,24 @@ metadata:
 spec:
   project: default
   sources:
+    # Fuente 1: El Chart
     - repoURL: https://charts.bitnami.com/bitnami
       chart: keycloak
-      targetRevision: 22.1.0 # Versión del chart estable para Keycloak 26
+      targetRevision: 22.1.0
       helm:
         valueFiles:
           - $values/resources/apps/keycloak/values.yaml
+    # Fuente 2: LOS SECRETOS (Faltaba esta)
+    - repoURL: https://github.com/raullopezepam/mi-repo-gitops.git
+      path: resources/apps/keycloak/secrets
+      targetRevision: main
+    # Fuente 3: Referencia para Values
     - repoURL: https://github.com/raullopezepam/mi-repo-gitops.git
       targetRevision: main
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: keycloak-ns
+    namespace: keycloak # Unificamos a 'keycloak'
   syncPolicy:
     automated:
       prune: true
