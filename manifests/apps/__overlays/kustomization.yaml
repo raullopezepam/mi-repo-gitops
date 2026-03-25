@@ -5,3 +5,4 @@ resources:
   # - ../postgres/lab
   - ../keycloak/lab
   # - ../hipstershop-demo/lab
+  
