@@ -9,11 +9,15 @@ GitOps repository for a local Minikube environment managed by the ArgoCD Operato
 ## Bootstrap (cluster setup from scratch)
 
 ```bash
-# Install ArgoCD Operator first, then apply the bootstrap manifest:
+# 1. Install ArgoCD Operator first, then apply the bootstrap manifest:
 kubectl apply -f revissions/apps-revission.yaml
+# ArgoCD auto-installs: Vault (wave 1) → ESO (wave 2) → ClusterSecretStore (wave 3) → Keycloak (wave 4)
+
+# 2. Load secrets into Vault (only manual step — requires AGE key)
+./scripts/vault-bootstrap.sh
 ```
 
-This creates the `ArgoCD` operator CR and the root `hipstershop-gitops` Application in the `argocd` namespace.
+This creates the `ArgoCD` operator CR and the root `hipstershop-gitops` Application in the `argocd` namespace. Vault and ESO are managed as ArgoCD Applications with sync waves to ensure correct startup order.
 
 ## Repository Structure
 
@@ -72,7 +76,10 @@ sources:
 
 | App | Namespace | Chart | Notes |
 |-----|-----------|-------|-------|
-| keycloak | keycloak | bitnami/keycloak 22.1.0 | Active; uses ESO + Vault for credentials |
+| vault | vault | hashicorp/vault 0.32.0 | Active; dev mode, wave 1 |
+| external-secrets | external-secrets | external-secrets 2.2.0 | Active; wave 2 |
+| vault-config | vault | path: manifests/infrastructure/vault | ClusterSecretStore, wave 3 |
+| keycloak | keycloak | bitnami/keycloak 22.1.0 | Active; uses ESO + Vault, wave 4 |
 | postgres | postgres-ns | bitnami/postgresql 15.5.2 | Commented out; has plaintext creds in values.yaml |
 | hipstershop-demo | hipstershop | local `charts/` umbrella | Commented out; 11 Google microservices |
 

@@ -35,107 +35,57 @@ git (solo referencias, sin datos sensibles)
 
 ### Componentes
 
-| Componente | Namespace | Instalación |
+| Componente | Namespace | Gestionado por |
 |---|---|---|
-| HashiCorp Vault | `vault` | `helm install vault hashicorp/vault` |
-| External Secrets Operator | `external-secrets` | `helm install external-secrets external-secrets/external-secrets` |
-| ClusterSecretStore | cluster-scoped | `manifests/infrastructure/vault/cluster-secret-store.yaml` |
-| ExternalSecret (keycloak) | `keycloak` | `resources/apps/keycloak/secrets/external-secret.yaml` |
+| HashiCorp Vault | `vault` | ArgoCD (wave 1) |
+| External Secrets Operator | `external-secrets` | ArgoCD (wave 2) |
+| ClusterSecretStore | cluster-scoped | ArgoCD (wave 3) |
+| ExternalSecret (keycloak) | `keycloak` | ArgoCD (wave 4) |
+
+### Sync waves (orden de despliegue)
+
+ArgoCD despliega los componentes en orden usando `argocd.argoproj.io/sync-wave`:
+
+```
+Wave 1 → vault            espera a que Vault pod esté Ready
+Wave 2 → external-secrets espera a que ESO pods estén Ready
+Wave 3 → vault-config     aplica ClusterSecretStore (necesita Vault + ESO)
+Wave 4 → keycloak-app     aplica ExternalSecret + Helm chart
+```
 
 ---
 
 ## Bootstrap desde cero
 
-Cuando se recrea el cluster hay que reinstalar Vault y ESO antes de que ArgoCD sincronice Keycloak, porque el `ExternalSecret` necesita el `ClusterSecretStore` para poder crear el `Secret`.
+Cuando se recrea el cluster, ArgoCD gestiona la instalación de Vault y ESO automáticamente en el orden correcto. Solo hay un paso manual: cargar los secretos en Vault.
 
-### 1. Añadir repos Helm
-
-```bash
-helm repo add hashicorp https://helm.releases.hashicorp.com
-helm repo add external-secrets https://charts.external-secrets.io
-helm repo update
-```
-
-### 2. Instalar Vault en modo dev
+### 1. Bootstrap de ArgoCD
 
 ```bash
-kubectl create namespace vault
-helm install vault hashicorp/vault \
-  --namespace vault \
-  --set "server.dev.enabled=true" \
-  --set "server.dev.devRootToken=root" \
-  --set "ui.enabled=true" \
-  --set "injector.enabled=false"
-
-kubectl wait --for=condition=Ready pod/vault-0 -n vault --timeout=90s
+kubectl apply -f revissions/apps-revission.yaml
 ```
 
-> **Nota:** El modo dev usa almacenamiento en memoria. Los secretos se pierden si el pod se reinicia. Para producción usar `server.ha.enabled=true` con almacenamiento persistente.
+ArgoCD arranca y sincroniza automáticamente en orden:
+- **Wave 1:** instala Vault (Helm chart) y espera a que esté Ready
+- **Wave 2:** instala ESO (Helm chart + CRDs) y espera a que esté Ready
+- **Wave 3:** aplica el ClusterSecretStore y verifica conexión con Vault
+- **Wave 4:** despliega Keycloak con el ExternalSecret
 
-### 3. Instalar External Secrets Operator
+### 2. Cargar secretos en Vault (único paso manual)
 
 ```bash
-kubectl create namespace external-secrets
-helm install external-secrets external-secrets/external-secrets \
-  --namespace external-secrets \
-  --set installCRDs=true
-
-kubectl wait --for=condition=Ready pod -l app.kubernetes.io/name=external-secrets \
-  -n external-secrets --timeout=90s
+./scripts/vault-bootstrap.sh
 ```
 
-### 4. Configurar Kubernetes auth en Vault
+Este script:
+- Configura Kubernetes auth en Vault (policy + rol para ESO)
+- Descifra `secrets/all.enc.yaml` con SOPS y carga los valores en Vault
+- Reconecta el ClusterSecretStore
+- Fuerza el re-sync de todos los ExternalSecrets
 
-```bash
-# Habilitar el método de autenticación
-kubectl exec -n vault vault-0 -- vault auth enable kubernetes
+> Requiere la clave AGE en `.sops/age/keys.txt`. Es el único paso que no puede automatizarse porque la clave privada no se commitea en git.
 
-# Configurar con la URL del API server (se resuelve automáticamente dentro del pod)
-kubectl exec -n vault vault-0 -- sh -c '
-vault write auth/kubernetes/config \
-  kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443"
-'
-
-# Crear policy que permite a ESO leer secretos
-kubectl exec -n vault vault-0 -- sh -c '
-cat > /tmp/eso-policy.hcl << EOF
-path "secret/data/*" {
-  capabilities = ["read"]
-}
-EOF
-vault policy write eso-policy /tmp/eso-policy.hcl
-'
-
-# Crear rol que vincula el service account de ESO con la policy
-kubectl exec -n vault vault-0 -- vault write auth/kubernetes/role/eso-role \
-  bound_service_account_names=external-secrets \
-  bound_service_account_namespaces=external-secrets \
-  policies=eso-policy \
-  ttl=24h
-```
-
-### 5. Aplicar el ClusterSecretStore
-
-```bash
-kubectl apply -f manifests/infrastructure/vault/cluster-secret-store.yaml
-
-# Verificar que conecta correctamente con Vault
-kubectl get clustersecretstore vault-cluster-store
-# Debe mostrar: STATUS: Valid  READY: True
-```
-
-### 6. Meter los secretos de Keycloak en Vault
-
-```bash
-kubectl exec -n vault vault-0 -- vault kv put secret/keycloak \
-  admin-password=<valor> \
-  password=<valor> \
-  postgres-password=<valor>
-```
-
-### 7. Sincronizar ArgoCD
-
-Una vez completados los pasos anteriores, ArgoCD puede sincronizar `keycloak-app` y el `ExternalSecret` creará el `Secret` automáticamente.
+> **Vault en modo dev:** los secretos se pierden si el pod de Vault se reinicia. Ejecutar `./scripts/vault-bootstrap.sh` de nuevo para recargarlos.
 
 ---
 
