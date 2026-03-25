@@ -2,7 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+  - ../vault/lab           # wave 1: Vault (infraestructura base)
+  - ../external-secrets/lab # wave 2: ESO (depende de Vault)
+  - ../vault-config/lab    # wave 3: ClusterSecretStore (depende de ESO + Vault)
+  - ../keycloak/lab        # wave 4: Keycloak (depende de ClusterSecretStore)
   # - ../postgres/lab
-  - ../keycloak/lab
   # - ../hipstershop-demo/lab
-  
