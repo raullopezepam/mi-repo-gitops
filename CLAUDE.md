@@ -23,11 +23,16 @@ manifests/apps/
   __overlays/kustomization.yaml    # Root Kustomize entry point — edit to enable/disable apps
   <app>/base/helmrelease.yaml      # ArgoCD Application CR (NOTE: "helmrelease" is a misnomer — these are Application CRs)
   <app>/lab/kustomization.yaml     # Environment overlay (currently lab only, inherits base)
+manifests/infrastructure/
+  vault/cluster-secret-store.yaml  # ClusterSecretStore: ESO → Vault connection
 resources/apps/
   <app>/values.yaml                # Helm values referenced by ArgoCD multi-source Applications
-  keycloak/secrets/                # SealedSecret manifests for keycloak credentials
+  keycloak/secrets/
+    external-secret.yaml           # ExternalSecret managed by ArgoCD (no sensitive data)
   keycloak/realm-config.json       # Keycloak realm definition (also inlined in values.yaml)
 charts/hipster-shop/               # Umbrella Helm chart for hipstershop-demo (11 microservices)
+docs/
+  secrets-management.md            # ESO + Vault setup and operations guide
 .sops/age/keys.txt                 # AGE key pair (present but SOPS is not actively used)
 ```
 
@@ -67,15 +72,17 @@ sources:
 
 | App | Namespace | Chart | Notes |
 |-----|-----------|-------|-------|
-| keycloak | keycloak | bitnami/keycloak 22.1.0 | Active; uses SealedSecrets for credentials |
+| keycloak | keycloak | bitnami/keycloak 22.1.0 | Active; uses ESO + Vault for credentials |
 | postgres | postgres-ns | bitnami/postgresql 15.5.2 | Commented out; has plaintext creds in values.yaml |
 | hipstershop-demo | hipstershop | local `charts/` umbrella | Commented out; 11 Google microservices |
 
 ### Secrets
 
-- **Keycloak:** Uses `bitnami.com/v1alpha1 SealedSecret` in `resources/apps/keycloak/secrets/`. The SealedSecrets controller must be installed in the cluster. Keycloak values reference the secret via `auth.existingSecret: keycloak-helm-secrets`.
+- **Keycloak:** Uses **ESO + HashiCorp Vault**. An `ExternalSecret` CR in `resources/apps/keycloak/secrets/` is managed by ArgoCD. ESO fetches the actual values from Vault (`secret/keycloak`) and creates the `keycloak-helm-secrets` Secret automatically. See `docs/secrets-management.md` for full setup and operations guide.
 - **Postgres:** Plaintext credentials in `resources/apps/postgres/values.yaml` — acceptable for local lab only.
 - **SOPS/AGE:** Key pair exists at `.sops/age/keys.txt` but SOPS is not actively used (legacy from explored-then-removed KSOPS approach).
+
+> **Important for bootstrap:** Vault and ESO must be installed and configured **before** ArgoCD syncs `keycloak-app`. See `docs/secrets-management.md` for the full bootstrap sequence.
 
 ### Keycloak Realm Config
 
@@ -93,7 +100,14 @@ kubectl kustomize manifests/apps/keycloak/lab
 # Apply a change (ArgoCD will auto-sync from git, but for immediate local testing):
 kubectl apply -k manifests/apps/keycloak/lab
 
-# Create a new SealedSecret (requires kubeseal + controller in cluster)
-kubectl create secret generic my-secret --dry-run=client -o yaml | \
-  kubeseal --format yaml > resources/apps/<app>/secrets/my-sealedsecret.yaml
+# Rotar un secreto de Keycloak (sin tocar git)
+kubectl exec -n vault vault-0 -- vault kv patch secret/keycloak admin-password=nuevo-valor
+
+# Ver valores actuales en Vault
+kubectl exec -n vault vault-0 -- vault kv get secret/keycloak
+
+# Exponer la UI de Vault en el navegador
+kubectl patch svc vault-ui -n vault -p '{"spec": {"type": "NodePort"}}'
+minikube service vault-ui -n vault --url
+# Token de acceso: root
 ```
