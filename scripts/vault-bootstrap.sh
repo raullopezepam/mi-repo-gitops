@@ -5,7 +5,7 @@ set -e
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 AGE_KEY="$REPO_ROOT/.sops/age/keys.txt"
-SECRETS_DIR="$REPO_ROOT/secrets"
+SECRETS_FILE="$REPO_ROOT/secrets/all.enc.yaml"
 
 echo "==> Esperando a que Vault esté listo..."
 kubectl wait --for=condition=Ready pod/vault-0 -n vault --timeout=90s
@@ -39,30 +39,12 @@ kubectl exec -n vault vault-0 -- vault write auth/kubernetes/role/eso-role \
 
 # ── 2. Secretos ─────────────────────────────────────────────────────────────
 echo ""
-echo "==> Cargando secretos en Vault..."
+echo "==> Cargando secretos en Vault desde $SECRETS_FILE..."
 
-for enc_file in "$SECRETS_DIR"/*.enc.yaml; do
-  app=$(basename "$enc_file" .enc.yaml)
-  echo "    → secret/$app"
+SOPS_AGE_KEY_FILE="$AGE_KEY" sops -d "$SECRETS_FILE" | \
+  python3 "$REPO_ROOT/scripts/load-secrets-to-vault.py"
 
-  kv_args=$(SOPS_AGE_KEY_FILE="$AGE_KEY" sops -d "$enc_file" | \
-    python3 -c "
-import sys
-lines = []
-for line in sys.stdin:
-    line = line.rstrip()
-    if line.startswith('sops:'):
-        break
-    if ': ' in line:
-        key, val = line.split(': ', 1)
-        lines.append(f'{key.strip()}={val.strip()}')
-print(' '.join(lines))
-")
-
-  kubectl exec -n vault vault-0 -- vault kv put "secret/$app" $kv_args
-done
-
-# ── 3. Recrear ClusterSecretStore para reconectar con Vault ─────────────────
+# ── 3. Recrear ClusterSecretStore ───────────────────────────────────────────
 echo ""
 echo "==> Reconectando ClusterSecretStore con Vault..."
 kubectl delete clustersecretstore vault-cluster-store --ignore-not-found
@@ -70,7 +52,7 @@ kubectl apply -f "$REPO_ROOT/manifests/infrastructure/vault/cluster-secret-store
 kubectl wait --for=jsonpath='{.status.conditions[0].status}'=True \
   clustersecretstore/vault-cluster-store --timeout=30s
 
-# ── 4. Forzar re-sync de todos los ExternalSecrets ──────────────────────────
+# ── 4. Forzar re-sync de ExternalSecrets ────────────────────────────────────
 echo ""
 echo "==> Forzando re-sync de ExternalSecrets..."
 kubectl get externalsecret -A --no-headers | while read ns name _rest; do
@@ -79,6 +61,7 @@ kubectl get externalsecret -A --no-headers | while read ns name _rest; do
 done
 
 echo ""
-echo "==> Listo. Estado final:"
+echo "==> Estado final:"
 kubectl get clustersecretstore vault-cluster-store
+echo ""
 kubectl get externalsecret -A
